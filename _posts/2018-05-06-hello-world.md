@@ -12,4 +12,4 @@ Here is the line of code most of us had as our first computer program:
 {% highlight python %}
 print("Hello World!")
 {% endhighlight %}
-Ahh... What nostalgia! My memories come back from when I was 13 and coded Java on my 4 inch android phone with "Hacker's Keyboard". 
+Ahh... What nostalgia! My memories come back from when I was 13 and coded Java on my 4 inch android phone with "Hacker's Keyboard". Though that time it was a more complicated expression I had to write.....
