@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Math Codified 
+title: Math Codified - Integrals
 categories: mathcodified
 ---
 
-bla bla bla
-bla bla bla again
+
