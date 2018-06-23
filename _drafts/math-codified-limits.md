@@ -4,6 +4,7 @@ title: Math Codified - Limits
 categories: mathcodified
 ---
 
-function that evaluates f(x) at either near a number A or at inf (where it maybe plots a plot of f(A) where A -> 00)
+Limits are a concept in math used in various situations, for example when calculating derivatives. I have a article about how to understand derivatives using python [here].
 
-$$\epsilon$$
+A limit is written as this: 
+$$ \lim_{x \to a} f(x)$$
