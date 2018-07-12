@@ -2,3 +2,4 @@
 * Let's explore some data
     * pokemon stats
 * Physics simulations
+* Math jokes
