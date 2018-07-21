@@ -10,7 +10,7 @@ This is a gravity simulator I have written in python using the library VPython/G
 The source code can be found on glowscript [here](http://www.glowscript.org/#/user/hajenzoo/folder/Public/program/gravity-simulator)
 The simulation with a black hole can be found [here](http://www.glowscript.org/#/user/hajenzoo/folder/Public/program/gravity-simulator-black-hole) (click "Run this program" in the upper left corner to start it)
 
-A tutorial on how to code this yourself will be coming in the future.
+A tutorial on how to code this yourself will be coming in the future. I the meanwhile if you're interested, I have written comments in the code that may be helpful. 
 
 Controls:
 - Zoom: scroll
