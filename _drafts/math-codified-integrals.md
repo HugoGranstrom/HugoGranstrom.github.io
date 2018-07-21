@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Math Codified - Integrals
-categories: mathcodified
+categories: [mathcodified, math]
 ---
 
 

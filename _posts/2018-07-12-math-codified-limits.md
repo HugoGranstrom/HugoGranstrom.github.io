@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Math Codified - Limits
-categories: mathcodified
+categories: [mathcodified, math]
 shortdescription: Explaining limits using python code
 excerpt: Limits are a concept in math used in various situations, for example when calculating derivatives. Limits are used when a function f(x) isn't defined for a certain input x or if we want to see if the function has a limit at infinity.
 ---
