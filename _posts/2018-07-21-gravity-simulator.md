@@ -236,7 +236,7 @@ function main(_) { var version, box, sphere, cylinder, pyramid, cone, helix, ell
     "200"; return (function ___(__break) { var __more; var __loop = __cb(_, __frame, 0, 0, function __$main() { __more = false;
         var __1 = true; if (__1) {
           "201";
-          return rate(10000, __cb(_, __frame, 219, 8, function __$main() {
+          return rate(5000, __cb(_, __frame, 219, 8, function __$main() {
             "202";
             RS_Iter4 = RS_Iterable(bodies);
             for (RS_Index4 = 0; RS_Index4["<"](RS_Iter4.length); RS_Index4++) {
