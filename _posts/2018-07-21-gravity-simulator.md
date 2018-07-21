@@ -116,7 +116,7 @@ function main(_) { var version, box, sphere, cylinder, pyramid, cone, helix, ell
       "29";
       self.label = RS_interpolate_kwargs.call(this, label, [RS_desugar_kwargs({ pos: self.position, text: self.name, height: 10 }),]);
       "30";
-      self.sphere = RS_interpolate_kwargs.call(this, sphere, [RS_desugar_kwargs({ pos: self.position, color: self.color, radius: self.radius["*"](scale_factor), make_trail: trail, retain: 200 }),]);
+      self.sphere = RS_interpolate_kwargs.call(this, sphere, [RS_desugar_kwargs({ pos: self.position, color: self.color, radius: self.radius["*"](scale_factor), make_trail: trail, retain: 300 }),]);
       "31";
       bodies.append(self); };
 
