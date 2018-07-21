@@ -6,6 +6,7 @@ shortdescription: A gravity simulator of the solar system written in python (VPy
 ---
 
 This is a gravity simulator I have written in python using the library VPython/Glowscript. I will update this post in the future and write a tutorial series on how to write it.
+The source code can be found on glowscript [here](http://www.glowscript.org/#/user/hajenzoo/folder/Public/program/gravity-simulator)
 
 Controllers:
 - Zoom: scroll
