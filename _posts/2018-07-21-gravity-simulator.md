@@ -15,6 +15,8 @@ A tutorial on how to code this yourself will be coming in the future. I the mean
 
 Remember, you can always count on your best friend, the calculator!
 
+A heads up: running this simulation can drain quite a lot of power so if you're on a laptop, I recommend that you charger while running this.
+
 Controls:
 - Zoom: scroll
 - Pan: Hold SHIFT and drag with left mouse button
