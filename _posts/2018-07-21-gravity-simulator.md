@@ -12,6 +12,8 @@ The simulation with a black hole can be found [here](http://www.glowscript.org/#
 
 A tutorial on how to code this yourself will be coming in the future. I the meanwhile if you're interested, I have written comments in the code that may be helpful. 
 
+Remember, you can always count on your best friend, the calculator!
+
 Controls:
 - Zoom: scroll
 - Pan: Hold SHIFT and drag with left mouse button
