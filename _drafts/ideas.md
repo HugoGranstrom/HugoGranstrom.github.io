@@ -2,7 +2,7 @@
 * Let's explore some data
     * pokemon stats
 * Physics simulations
-    * Gravity
+    * Gravity - 6.674*10^(-11)*1/(149597870700)^3 * 1.98847 * 10^(30) * 86400^2
         * Tutorial how to write it
 * Math jokes
 * Python Tutorial

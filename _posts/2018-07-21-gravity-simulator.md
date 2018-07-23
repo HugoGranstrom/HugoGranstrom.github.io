@@ -22,6 +22,8 @@ Controls:
 - Pan: Hold SHIFT and drag with left mouse button
 - Rotate: Hold and drag right mouse button
 
+Thanks to @marsater for ideas and feedback for this project. 
+
 <div id="glowscript" class="glowscript">
 <script type="text/javascript" src="https://s3.amazonaws.com/glowscript/lib/jquery/2.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://s3.amazonaws.com/glowscript/lib/jquery/2.1/jquery-ui.custom.min.js"></script>

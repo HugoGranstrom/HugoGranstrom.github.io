@@ -1,7 +1,22 @@
 ---
 layout: post
-title: How to understand the Monty Hall Problem
+title: Making sense of the Monty Hall Problem
 categories: [math]
 shortdescription: Explaining the Monty Hall problem
 ---
 
+The Monty Hall problem is a quiet famous problem where most people's intuition are wrong. There are many variations of it but I will use one with playing card. It goes like this:
+
+*You and a friend sit at a table opposite of each other. On the table there are three faced down playing cards, one king and two knights. Your friend knows which card is which but you have no idea. The ultimate goal in this game is to figure out which card is the king. First you get to choose one of the cards, and you tell your friend which. He/She then flips one of the other card two cards and it is a knight. You are now offered to stay with the card you choosed at first or to switch to the second faced down card. Which of these choices has the greatest probabilty of you picking the king?*
+
+Most people unfamiliar with this problem will probably say: "It doesn't matter. They are equally likely". We will here in a few different ways show that it does in fact matter if you switch or stay. 
+
+First let's try a more obvious example. Instead of three card, we have ten, nine knights and one king. You choose a card like before but instead of flipping just one knight, your friend flips 8 knights. Now there remains just two faced down cards, your first choice and one other. The key here is that you always have just two cards in the end to choose from. Would you switch or would you stay? Here your intuition probably tells you to switch because there is a greater probability that the card you choosed was a knight than a king. In fact there is just 1/10 probability that you choosed the king as your first card and thus a 9/10 probability that any of the other cards are the king. Therefore you have a 9/10 probabilty to pick the king if you switch card because you know that 8 of the other cards are not the king. Are you on board? If not, think through this example one more time and remember the key: we are always left with just two cards in the end to choose from. 
+
+If we lower the amount of cards to nine, would it still be better to switch most of the time? Yes, you would have a 8/9 probability of picking the king if you switched. The same holds for 8, 7, 6, 5, 4 and 3 cards as well. Let's look a little closer on the case of 4 cards. When you first choose a card you have 1/4 probability of picking the king. When you are left with just two card to choose from, the probability that you choosed the king is still just 1/4 and therefore there must be a 3/4 probability that the other card is the king. We are nearly there now! Time for 3 cards: You have 1/3 probability of choosing the king and therefore a 2/3 probability that you did not choose the king. When one of the other cards are flipped and shown to be a knight, the probability still remains. You are more likely to have missed the king than to have picked it at first and therefore switching is the better option. In the case of 3 cards, you have a 2/3 probability to pick the king if you switch. 
+
+Now a more mathy way to attack the problem (keep calm, we won't hurt it). Is there any probabilty that remains the same throughout the whole problem, both mathematically and intuition-wise? One such probabilty I think is the probabilty that we did NOT choose the king as our first card, **P(not king)**. This probabilty is 2/3 and it will not change during the game. The game goes as before but we pause when the knight has been flipped. The probabilty is still the same that we did NOT choose the king at first and therefore it is still just 1/3 that the card we choosed is a king but it is 2/3 that any of the other card are the king. Now we also know that one of those cards are not the king and therefore the other card must have the probabilty 2/3 of being king. Switching cards therfore gives you a 2/3 chance to pick the king. 
+
+If logic doesn't bite on you then maybe some python code does. 
+
+If this article didn't make you understand the Monty Hall Problem then I recommend [this](http://link) Youtube video by a channel called Numberphile which explains this with pictures as well. They are by the way a really interesting channel for people interested in math.  
