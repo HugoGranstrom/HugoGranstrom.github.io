@@ -8,8 +8,16 @@ name: Hugo Granström
 # Short bio or description (displayed in the header)
 description: My Python programming, math and physics blog
 
+# SEO
+title: Hugo Granström - Math, Phyics and Python Blog
+author: Hugo Granström
+twitter:
+  username: GranstromHugo
+  card: summary
+
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: /images/avatar.png
+logo: /images/avatar.png
 
 #
 # Flags below are optional
