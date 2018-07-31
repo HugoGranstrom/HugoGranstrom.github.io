@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/hugogranstrom
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hugogranstrom.com
+  * I am hugogranstrom (https://keybase.io/hugogranstrom) on keybase.
+  * I have a public key ASDxhRDe33ig_0M4qDe63CUCvT5cTCkZCWIrbdam9rFLGwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120f18510dedf78a0ff4338a837badc2502bd3e5c4c291909622b6dd6a6f6b14b1b0a",
+      "host": "keybase.io",
+      "kid": "0120f18510dedf78a0ff4338a837badc2502bd3e5c4c291909622b6dd6a6f6b14b1b0a",
+      "uid": "6ce5965cb042d6c004294ad755499b19",
+      "username": "hugogranstrom"
+    },
+    "merkle_root": {
+      "ctime": 1533040394,
+      "hash": "4403b7a06f00925875904422469108e714dfd96451d1a6f0a578a6664cef45302d6a43ee8f7020c85354d6e203411778a101f4c16b4c3e5ab76f79c5da4bc133",
+      "hash_meta": "d0fa7df936e27a47ce89222dec3364f0ec94d7a9123e9058d3d14087e06885b7",
+      "seqno": 3360450
+    },
+    "service": {
+      "entropy": "bqUvDTgkDIXxOycMGTtjTY5s",
+      "hostname": "hugogranstrom.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.3.0"
+  },
+  "ctime": 1533040418,
+  "expire_in": 504576000,
+  "prev": "f50f3c990fc774d0351c3d9a2817451ed8261f272e1f61fcf63898e142092715",
+  "seqno": 11,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg8YUQ3t94oP9DOKg3utwlAr0+XEwpGQliK23WpvaxSxsKp3BheWxvYWTESpcCC8Qg9Q88mQ/HdNA1HD2aKBdFHtgmHycuH2H89jiY4UIJJxXEIJGACxi+qdPi4l3EpvwgKxJX0AxGlGiLpB7K2Bnooz2yAgHCo3NpZ8RAGwWnj5JlgDFSzdh1CUPP9yPr+/khm1u39aW2mrqTFyw4huGIlH27aJ9xqyY4St+00Tvkl5Jlyrf6FAu6qE/bCqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEICXmqxXcZ8Ahh0KX3wTgFrDHzLOSkqp9IRaMc8Di9hNHo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/hugogranstrom
+
+==================================================================
