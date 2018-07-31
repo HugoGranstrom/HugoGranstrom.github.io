@@ -15,6 +15,12 @@ twitter:
   username: GranstromHugo
   card: summary
 lang: en_US
+social:
+  name: Hugo Granström
+  links:
+    - https://twitter.com/GranstromHugo
+    - https://github.com/HugoGranstrom
+    - https://keybase.io/hugogranstrom
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: /images/avatar.png
