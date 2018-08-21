@@ -6,11 +6,18 @@ permalink: /pwa-gps-track/
 <html>
   <head>
     <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
-        #map {height: 500px;}
-        #startbtn {margin: 20px;}
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        html, body, #map {
+            height: 95%;
+            width: 100vw;
+        }
+        #startbtn, #stopbtn, #savetofile {margin-top: 10px;}
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -21,10 +28,19 @@ permalink: /pwa-gps-track/
  crossorigin=""></script>
   </head>
   <body>
+
+    
     <div id="map"></div>
     <button id="startbtn" onclick="start_track()">Start</button>
     <button id="stopbtn" onclick="stop_track()">Stop</button>
+    <button id="savetofile" onclick="save_to_file()">Save session to file (.gpx)</button>
+
+
     <script>
+        // time = new Date(1534868356501).toISOString();
+        // prompt for filename
+        var position_list = [];
+
         mymap = L.map('map').setView([0, 0], 13);
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaHVnb2dyYW5zdHJvbSIsImEiOiJjamwzbjJqYjkxd2x4M3Bxcm16aWU3aWxmIn0.w0m_edRTF8MH_gpv7IvKSg', {
             maxZoom: 18,
@@ -46,6 +62,7 @@ permalink: /pwa-gps-track/
             timer = setInterval(updatePosition, 1000);
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
+                    position_list.push(position);
                     startPosition = [position.coords.latitude, position.coords.longitude];
                     console.log(startPosition);
                     track_line = L.polyline([startPosition], {color: 'red'}).addTo(mymap);
@@ -63,6 +80,7 @@ permalink: /pwa-gps-track/
             clearInterval(timer);
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
+                    position_list.push(position);
                     endPosition = [position.coords.latitude, position.coords.longitude];
                     L.popup()
                         .setLatLng(endPosition)
@@ -79,12 +97,50 @@ permalink: /pwa-gps-track/
             
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
+                    position_list.push(position);
                     position = [position.coords.latitude, position.coords.longitude];
                     track_line.addLatLng(position);
                     mymap.fitBounds(track_line.getBounds());
                 }, gps_error, gps_options);
+            }    
+        }
+
+        function save_to_file() {
+            let file_string =  "";
+            track_name = prompt("Track name: ");
+            filename = prompt("Filename (without .gpx): ");
+            start_time = position_list[0].timestamp;
+            start_time = new Date(start_time).toISOString();
+            file_string += '<?xml version="1.0"?>\n<gpx version="1.0" creator="HugoGranstrom.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">\n';
+            file_string += '<time>' + start_time + '</time>\n';
+            file_string += '<trk>\n';
+            file_string += '\t<name>' + track_name + '</name>\n';
+            file_string += '<trkseg>\n';
+
+            var i;
+            for (i = 0; i < position_list.length; i++) {
+                let current_timestamp = new Date(position_list[i].timestamp).toISOString();
+                file_string += '<trkpt lat="' + position_list[i].coords.latitude + '" lon="'
+                    + position_list[i].coords.longitude + '">\n';
+                file_string +=  '\t<ele>' + position_list[i].coords.altitude + '</ele>\n';
+                file_string += '<time>' + current_timestamp + '</time>\n';
+                file_string += '</trkpt>\n';
             }
-            
+
+            file_string += '</trkseg>\n';
+            file_string += '</trk>\n';
+            file_string += '</gpx>';
+            download(filename, file_string);
+        }
+
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/xml;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
         }
     </script>
   </body>
