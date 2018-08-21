@@ -109,6 +109,7 @@ permalink: /pwa-gps-track/
             let file_string =  "";
             track_name = prompt("Track name: ");
             filename = prompt("Filename (without .gpx): ");
+            filename += '.gpx';
             start_time = position_list[0].timestamp;
             start_time = new Date(start_time).toISOString();
             file_string += '<?xml version="1.0"?>\n<gpx version="1.0" creator="HugoGranstrom.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">\n';
