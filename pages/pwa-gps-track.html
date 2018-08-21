@@ -34,6 +34,16 @@ permalink: /pwa-gps-track/
             id: 'mapbox.streets'
         }).addTo(mymap);
 
+        gps_options = {
+            enableHighAccuracy: true,
+            timeout: 10,
+            maximumAge: 5
+        };
+        
+        function gps_error() {
+            alert("Could not find position");
+        }
+
         function start_track() {
             timer = setInterval(updatePosition, 1000);
             if (navigator.geolocation) {
@@ -46,7 +56,7 @@ permalink: /pwa-gps-track/
                         .setContent('Start')
                         .openOn(mymap);
                     console.log("Start tracking");
-                });
+                }, gps_error, gps_options);
             }
             
             
@@ -60,7 +70,7 @@ permalink: /pwa-gps-track/
                         .setLatLng(endPosition)
                         .setContent('Finish')
                         .openOn(mymap);
-                });
+                }, gps_error, gps_options);
             }
             console.log("end");
             
@@ -74,7 +84,7 @@ permalink: /pwa-gps-track/
                     position = [position.coords.latitude, position.coords.longitude];
                     track_line.addLatLng(position);
                     mymap.fitBounds(track_line.getBounds());
-                });
+                }, gps_error, gps_options);
             }
             
         }
