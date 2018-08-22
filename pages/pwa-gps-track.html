@@ -62,27 +62,17 @@ permalink: /pwa-gps-track/
 
         function start_track() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    position_list.push(position);
-                    startPosition = [position.coords.latitude, position.coords.longitude];
-                    console.log(startPosition);
-                    track_line = L.polyline([startPosition], {color: 'red'}).addTo(mymap);
-                    mymap.fitBounds(track_line.getBounds());
-                    current_pos_marker = L.marker(startPosition).addTo(mymap);
-                    L.popup()
-                        .setLatLng(startPosition)
-                        .setContent('Start')
-                        .openOn(mymap);
-                    console.log("Start tracking");
-                }, gps_error, gps_options);
-
+                track_line = L.polyline([], {color: 'red'}).addTo(mymap);
+                current_pos_marker = L.marker([0,0]).addTo(mymap);
                 watchID = navigator.geolocation.watchPosition(position => {
                     position_list.push(position);
                     position = [position.coords.latitude, position.coords.longitude];
                     track_line.addLatLng(position);
                     current_pos_marker.setLatLng(position);
-                    console.log("update");
+                    console.log("update " + position_list.length);
                 }, gps_error, gps_options);
+                setTimeout(_ => {mymap.fitBounds(track_line.getBounds()); console.log("timeout run");}, 5000); // wait 5 second to populate track_line
+                console.log("Start tracking");
             }
             
             
@@ -90,16 +80,18 @@ permalink: /pwa-gps-track/
         }
         function stop_track() {
             navigator.geolocation.clearWatch(watchID);
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    position_list.push(position);
-                    endPosition = [position.coords.latitude, position.coords.longitude];
-                    L.popup()
-                        .setLatLng(endPosition)
-                        .setContent('Finish')
-                        .openOn(mymap);
-                }, gps_error, gps_options);
-            }
+            console.log(position_list);
+            
+            startPosition = [position_list[0].coords.latitude, position_list[0].coords.longitude]
+            endPosition = [position_list[-1].coords.latitude, position_list[-1].coords.longitude]
+            L.popup()
+                .setLatLng(startPosition)
+                .setContent('Start')
+                .openOn(mymap);
+            L.popup()
+                .setLatLng(endPosition)
+                .setContent('Finish')
+                .openOn(mymap);
             console.log("end");
             
         }
