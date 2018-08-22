@@ -1,11 +1,11 @@
 ---
-permalink: /pwa-gps-track/
+permalink: /pwa-gps-track2/
 ---
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Simple Map2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -60,7 +60,6 @@ permalink: /pwa-gps-track/
         }
 
         function start_track() {
-            timer = setInterval(updatePosition, 1000);
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     position_list.push(position);
@@ -73,12 +72,21 @@ permalink: /pwa-gps-track/
                         .openOn(mymap);
                     console.log("Start tracking");
                 }, gps_error, gps_options);
+
+                watchID = navigator.geolocation.watchPosition(position => {
+                    position_list.push(position);
+                    position = [position.coords.latitude, position.coords.longitude];
+                    track_line.addLatLng(position);
+                    mymap.fitBounds(track_line.getBounds());
+                    console.log("update");
+                }, gps_error, gps_options);
             }
+            
             
             
         }
         function stop_track() {
-            clearInterval(timer);
+            navigator.geolocation.clearWatch(watchID);
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     position_list.push(position);
@@ -91,19 +99,6 @@ permalink: /pwa-gps-track/
             }
             console.log("end");
             
-        }
-
-        function updatePosition() {
-            console.log("update");
-            
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    position_list.push(position);
-                    position = [position.coords.latitude, position.coords.longitude];
-                    track_line.addLatLng(position);
-                    mymap.fitBounds(track_line.getBounds());
-                }, gps_error, gps_options);
-            }    
         }
 
         function save_to_file() {
