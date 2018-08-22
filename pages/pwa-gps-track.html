@@ -33,6 +33,7 @@ permalink: /pwa-gps-track/
     <div id="map"></div>
     <button id="startbtn" onclick="start_track()">Start</button>
     <button id="stopbtn" onclick="stop_track()">Stop</button>
+    <button id="scalebtn" onclick="scale_map()">Scale</button>
     <button id="savetofile" onclick="save_to_file()">Save session to file (.gpx)</button>
 
 
@@ -67,6 +68,8 @@ permalink: /pwa-gps-track/
                     startPosition = [position.coords.latitude, position.coords.longitude];
                     console.log(startPosition);
                     track_line = L.polyline([startPosition], {color: 'red'}).addTo(mymap);
+                    mymap.fitBounds(track_line.getBounds());
+                    current_pos_marker = L.marker(startPosition).addTo(mymap);
                     L.popup()
                         .setLatLng(startPosition)
                         .setContent('Start')
@@ -82,6 +85,7 @@ permalink: /pwa-gps-track/
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     position_list.push(position);
+                    mymap.fitBounds(track_line.getBounds());
                     endPosition = [position.coords.latitude, position.coords.longitude];
                     L.popup()
                         .setLatLng(endPosition)
@@ -101,7 +105,7 @@ permalink: /pwa-gps-track/
                     position_list.push(position);
                     position = [position.coords.latitude, position.coords.longitude];
                     track_line.addLatLng(position);
-                    mymap.fitBounds(track_line.getBounds());
+                    current_pos_marker.setLatLng(position);
                 }, gps_error, gps_options);
             }    
         }
@@ -143,6 +147,10 @@ permalink: /pwa-gps-track/
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
+        }
+
+        function scale_map() {
+            mymap.fitBounds(track_line.getBounds());
         }
     </script>
   </body>
