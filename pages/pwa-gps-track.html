@@ -18,10 +18,9 @@ permalink: /pwa-gps-track/
             width: 100vw;
         }
         #map {
-            height: 95%;
+            height: 85%;
             width: 100vw;
         }
-        #startbtn, #stopbtn, #savetofile, #resetbtn {margin-top: 10px;}
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -30,17 +29,19 @@ permalink: /pwa-gps-track/
  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
  crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   </head>
   <body>
 
     
     <div id="map"></div>
-    <button id="startbtn" onclick="start_track()">Start</button>
-    <button id="stopbtn" onclick="stop_track()">Stop</button>
-    <button id="scalebtn" onclick="scale_map()">Scale</button>
-    <button id="savetofile" onclick="save_to_file()">Save session to file (.gpx)</button>
-    <button id="resetbtn" onclick="reset_map()">Reset</button>
-
+    <div class="buttons">
+    <button id="startbtn" class="button is-success  is-rounded" onclick="start_track()">Start</button>  
+    <button id="stopbtn" class="button is-danger " onclick="stop_track()">Stop</button>
+    <button id="scalebtn"  class="button  is-info" onclick="scale_map()">Scale</button>
+    <button id="savetofile"  class="button  is-info" onclick="save_to_file()">Save session to file (.gpx)</button>
+    <button id="resetbtn"  class="button  is-warning" onclick="reset_map()">Reset</button>
+</div>
 
     <script>
         // time = new Date(1534868356501).toISOString();
