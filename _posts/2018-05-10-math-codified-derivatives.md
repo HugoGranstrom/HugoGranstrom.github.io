@@ -13,16 +13,16 @@ If our function is a straight line this will work no matter which $$ x_2 $$ and 
 Now to the part you probably came here to read. Translating this math expression to a piece of code-cake:
 
 Let's first create a python function for our math-function. I choose the equation $$ f(x)=x^2 $$ 
-{% highlight python %}
+``` python
 def f(x):
     return x**2
-{% endhighlight %} 
+``` 
 Next let's define h, the very small difference between $$ x_2 $$ and $$ x_1 $$. We can't set it to 0 because we can't divide by 0. So we choose a very small number instead, namely $$ h = 10^{-6} $$:
-{% highlight python %}
+``` python
 h = 10**-6
-{% endhighlight %}
+```
 Now we have the $$ \lim_{h \to 0} $$ and f(x) part sorted. Now it's time to define our python representation of $$ f(x)' $$:
-{% highlight python %}
+``` python
 def derivative(x):
     x2 = x + h
     y2 = f(x2)
@@ -31,13 +31,13 @@ def derivative(x):
     gradient = (y2 - y1)/(h)
     print(gradient)
     return gradient
-{% endhighlight %}
+```
 
 If we test to call the derivative function with a x-value we can check if it work. The derivative function of $$ x^2 $$ is $$ 2x $$:
-{% highlight python %}
+``` python
 derivative(2)
 # returns 4.0000010006480125
-{% endhighlight %}
+```
 The actual value is 4 but this is a pretty good approximation I would say (it's first at the 6'th decimal it gets it wrong). To get even more accurate results, choose a smaller $$ h $$.
 
 That was it. I hope you enjoyed this and learned something new. My hope is that if you have experience in programming but you didn't fully understand derivatives in school, that article helped you grasp it better. 

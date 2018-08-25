@@ -55,7 +55,7 @@ Now comes the juicy part you came here for! Put on your coding gear, here we GO!
 
 The way we are going to do limits in python is when $$ a $$ is a number we will add a small number $$ h $$ to it and evaluate an approximation of the value like this:
 
-{% highlight python %}
+``` python
 # our function. is the same as above
 def f(x):
     return 1/x + 2
@@ -68,13 +68,13 @@ x = 0 + h
 limit = f(x)
 print(limit)
 # 1002.0
-{% endhighlight %}
+```
 
 Note: 1e-3 is scientfic notation for $$ 1 \times 10^{-3}  $$ and likewise is 7e3 the same as $$ 7 \times 10^{3} $$.
 
 If we test with a smaller $$ h $$, for example 1e-6, we get 1000002. This is a strong indication that it tends to infinity and if we choose even smaller values for $$ h $$ the limits get's higher and higher. We can modify the code to write the answer for multiple values of $$ h $$ and that could help us see a trend:
 
-{% highlight python %}
+``` python
 def f(x):
     return 1/x + 2
 
@@ -91,11 +91,11 @@ for h in h_list:
 #h: 1e-06, limit: 1000002.0
 #h: 1e-09, limit: 1000000001.9999999
 #h: 1e-12, limit: 1000000000002.0
-{% endhighlight %}
+```
 
 This is the structure we will be using now when we want to see how a function behaves as it approaches infinity. We will have a list of increasingly big numbers (instead of small):
 
-{% highlight python %}
+``` python
 def f(x):
     return 1/x + 2
 
@@ -110,7 +110,7 @@ for x in x_list:
 #x: 1000000.0, limit: 2.000001
 #x: 1000000000.0, limit: 2.000000001
 #x: 1000000000000.0, limit: 2.000000000001
-{% endhighlight %}
+```
 
 As we can see it seems to converge to 2 at infinity. If you continue to increase $$ x $$ you will soon surpass the precision of floating point numbers (that is shown) and it will just display "2.0". Python is really convinient in the way that you can have really big numbers without worrying about what whether it should be an *unsigned*, *long* etc *int*. It just works! Test to print some really big number, preferably using the notation I have used above if you don't want to hold the 0-button until the heat-death of the universe. It will handle quite big numbers, numbers to0 big for us to even imagine. 1e100, $$ 10^{100} $$ also called a *googol* would need to divided by 2 one hundred times just to get down to $$ 10^{70} $$. Think about how big $$ 2^{100} $$ is, even so it is just $$ \frac{1}{10^{68}} $$ % of a googol. A googol was probably a piece of cake for your computer, then I have a challenge for it: beware! The *googolplex* ! (the space after the word is to keep the size of the number down, in *fact* it would be so ridiculously huge that I don't know how to write it in any other way then that). A *googolplex* is 10 to the power of a googol, $$ 10^{10^{100}} $$. Seeing as my computer can't handle numbers larger than 1e300 I have a hard time seeing a computer being able to handle a googolplex without cheating. For anyone interested, a *googol* is about a *googol*-th ($$ \frac{1}{10^{98}} $$%) of a percent of a *googolplex*.
 
