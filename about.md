@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am a science student from Sweden who likes math and to code in python. 
+I am student studying Engineering Physics in Sweden who likes math and to code in python. 
 
 ## Contact Me
 Email: [hugogranstrom@outlook.com](mailto:hugogranstrom@outlook.com)
