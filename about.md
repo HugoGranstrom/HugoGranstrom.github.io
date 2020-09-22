@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am student studying Engineering Physics in Sweden who likes math and to code in python. 
+I am student studying Engineering Physics in Sweden who likes math and to code in Nim. 
 
 ## Contact Me
 Twitter: [@GranstromHugo](https://twitter.com/GranstromHugo)
