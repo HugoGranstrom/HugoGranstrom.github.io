@@ -21,7 +21,7 @@ We will go through two scenarios depending on what exactly you want to integrate
 3. We want to calculate a cumulative integral from a to b, ie we also want the integral between a -> a + dt and a -> a + 2*dt and so on.  
 
 # 1. Integrating mathematical functions
-In this scenario we know the function `f(x)` on the entire interval of integration. Now we need to make a Nim proc that calculates it. In this example I will use the function $$f(x) = sin^2(2 \pi x)$$. It has the primitive function $$F(x) = \frac{x}{2} - \frac{sin(4 \pi x)}{8 \pi}$$ which we will use to check how accurate we can get our numeric solutions. From this we can define two procs:
+In this scenario we know the function `f(x)` on the entire interval of integration. Now we need to make a Nim proc that calculates it. In this example I will use the function $$f(x) = \sin^2(2 \pi x)$$. It has the primitive function $$F(x) = \frac{x}{2} - \frac{\sin(4 \pi x)}{8 \pi}$$ which we will use to check how accurate we can get our numeric solutions. From this we can define two procs:
 ```nim
 import math
 import numericalnim
@@ -36,7 +36,7 @@ NumericalNim requires that the proc you pass in is on the form `proc(x: float, c
 
 The integral we are going to compute is this:
 
-$$I_1 = \int_0^{10} f(x) dx$$
+$$I_1 = \int_0^{10} f(x) \mathrm{d}x$$
 
 Now we have all we need to calculate the integral! Are you ready? I can't hear you so I assume you are if you proceed ;)
 
@@ -60,7 +60,7 @@ $$g(x) = \frac{1}{\sigma \sqrt{2\pi}} e ^ {-\frac{1}{2} (\frac{x - \mu}{\sigma})
 
 Here $$\sigma$$ is the standard deviation and $$\mu$$ is the mean value where the curve is centered about. If we want to know the probability that a random value from this distribution is between two number $$a$$ and $$b$$ we integrate from $$a$$ to $$b$$:
 
-$$P(a < X < b) = \int_a^b g(x) dx$$
+$$P(a < X < b) = \int_a^b g(x) \mathrm{d}x$$
 
 Let's implement this function in Nim! But how are we supposed to pass in $$\mu$$ and $$sigma$$ if we only can have one variable, `x`? The answer is the `NumContext`! We can create a `NumContext` and store the values in there and then pass it in:
 
