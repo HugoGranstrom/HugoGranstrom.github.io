@@ -116,7 +116,7 @@ As we can see it seems to converge to 2 at infinity. If you continue to increase
 
 If you are reading this at night I apologize for the last paragraph, it might have been a bit to math heavy for this article about codifying math. But I just think that it is remarkable that we can express really big numbers even though we can't really comprehend them. 
 
-That was it for this time, I hope you learnt at least something new and that I haven't scared you away from math. I would really like to discuss math and such with you so if you are in the mood you can find me on [twitter](https://twitter.com/GranstromHugo) and on my email which both can be found in the footer. 
+That was it for this time, I hope you learnt at least something new and that I haven't scared you away from math. I would really like to discuss math and such with you so if you are in the mood you can find me on [twitter](https://twitter.com/GranstromHugo).
 
 **Have a nice day!**
 

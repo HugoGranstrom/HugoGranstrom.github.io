@@ -15,13 +15,13 @@ To use it we import it at the top of the `.nim` file:
 ```nim
 import numericalnim
 ```
-We will go through two scenarios depending on what exactly you want to integrate. 
+We will go through three scenarios depending on what exactly you want to integrate. 
 1. You have a mathematical expression for the function.
 2. You only know the values of the function at specific discrete points (for example if you have done some kind of measurement).
 3. We want to calculate a cumulative integral from a to b, ie we also want the integral between a -> a + dt and a -> a + 2*dt and so on.  
 
 # 1. Integrating mathematical functions
-In this scenario we know the function `f(x)` on the entire interval of integration. Now we need to make a Nim proc that calculates it. In this example I will use the function $$f(x) = \sin^2(2 \pi x)$$. It has the primitive function $$F(x) = \frac{x}{2} - \frac{\sin(4 \pi x)}{8 \pi}$$ which we will use to check how accurate we can get our numeric solutions. From this we can define two procs:
+In this scenario we know the function `f(x)` on the entire interval of integration. Now we need to define a Nim proc that allows us to calculate it at any point. In this example I will use the function $$f(x) = \sin^2(2 \pi x)$$. It has the primitive function $$F(x) = \frac{x}{2} - \frac{\sin(4 \pi x)}{8 \pi}$$ which we will use to check how accurate we can get our numeric solutions. From this we can define two procs:
 ```nim
 import math
 import numericalnim
@@ -32,15 +32,21 @@ proc f(x: float, ctx: NumContext[float]): float =
 proc primitive(x: float): float = 
   x / 2 - sin(4* PI * x) / (8 * PI)
 ```
-NumericalNim requires that the proc you pass in is on the form `proc(x: float, ctx: NumContext[T]): T` where `NumContext` is a type which can be used to save parameters or data between function calls. As we won't integrate `primitive` we don't need it there. Now we are ready to start integrating `f(x)`!
+NumericalNim requires that the proc you pass in is on the form `proc(x: float, ctx: NumContext[T]): T` where `NumContext` is a type which can be used to save parameters or data between function calls. Now we are ready to start integrating `f(x)`!
+
+![Sine^2 and Primitive]({{ "/images/nim-integration/a_sineAndPrimitive.svg" | absolute_url }})
+
+Above is a plot of `f(x)` and its primitive function `F(x)`. The plots in this article was generated using [ggplotnim](https://github.com/Vindaar/ggplotnim).
 
 The integral we are going to compute is this:
 
-$$I_1 = \int_0^{10} f(x) \mathrm{d}x$$
+$$I_1 = \int_0^{10} f(x) \, \mathrm{d}x$$
 
-Now we have all we need to calculate the integral! Are you ready? I can't hear you so I assume you are if you proceed ;)
+Now we have all we need to calculate the integral! Are you ready? I can't hear you, so I assume you are if you proceed ;)
 
-NumericalNim offers quite a few different methods you can use for your integration. They differ in accuracy and performance as well as adaptability. That means some methods use a fixed step size where it evaluates `f(x)` while some can on it's own change the step size so it takes smaller steps in regions where the functions changes rapidly and longer steps where it doesn't change much. That's the kind of integrators I recommend if you know the function on the entire interval because you can set an error tolerance which the method then will do it's best to satisfy. NumericalNim offers two such methods: `adaptiveSimpson` and `adaptiveGauss` out of which `adaptiveGauss` is the recommended one because it is faster, more robust and supports integrating from $$-\infty$$ to $$\infty$$ by means of a change of variable. If you want some geeky details it uses a Gauss-Kronrod method of order 21 with a global error control scheme. Compare that to `adaptiveSimpson` which is of order 4 (or 5 depending on how you see it) and uses local error control. I have found that global error control is superior in basically all cases because it does the minimal work to reduce the error by subdividing the interval with the greatest error first. Enough geekyness, let's get coding!
+NumericalNim offers quite a few different methods you can use for your integration. They differ in accuracy and performance as well as adaptability. That means some methods use a fixed step size where it evaluates `f(x)`, while some can on its own change the step size so it takes smaller steps in regions where the function changes rapidly and larger steps where it doesn't change much. Adaptive integrators are the kind of integrators I recommend if you know the function on the entire interval, because you can set an error tolerance which the method then will do its best to satisfy. 
+
+NumericalNim offers two such methods: `adaptiveSimpson` and `adaptiveGauss` out of which `adaptiveGauss` is the recommended one because it is faster, more robust and supports integrating from $$-\infty$$ to $$\infty$$ by means of a change of variable. If you want some geeky details it uses a Gauss-Kronrod method of order 21 with a global error control scheme. Compare that to `adaptiveSimpson` which is of order 4 (or 5 depending on how you see it) and uses local error control. I have found that global error control is superior in basically all cases because it does the minimal work to reduce the error by subdividing the interval with the greatest error first. Enough geekyness, let's get coding!
 
 ```nim
 let I1 = adaptiveGauss(f, 0, 10)
@@ -56,13 +62,13 @@ Error:   1.776356839400251e-015
 ```
 That is pretty accurate! That's cool and all but why bother doing it numerically when we could have done it analytically instead? That's a good point, but the fact is that there are loads of integrals for which we can't find a primitive function. A simple example is $$e^{x^2}$$ which is widely used. For example in the normal distribution where we want to calculate integrals to get a probability. That is what we will do next! The function we will integrate is:
 
-$$g(x) = \frac{1}{\sigma \sqrt{2\pi}} e ^ {-\frac{1}{2} (\frac{x - \mu}{\sigma})^2}$$
+$$g(x) = \frac{1}{\sigma \sqrt{2\pi}} e ^ {-\frac{1}{2} \left(\frac{x - \mu}{\sigma}\right)^2}$$
 
 Here $$\sigma$$ is the standard deviation and $$\mu$$ is the mean value where the curve is centered about. If we want to know the probability that a random value from this distribution is between two number $$a$$ and $$b$$ we integrate from $$a$$ to $$b$$:
 
-$$P(a < X < b) = \int_a^b g(x) \mathrm{d}x$$
+$$P(a < X < b) = \int_a^b g(x) \, \mathrm{d}x$$
 
-Let's implement this function in Nim! But how are we supposed to pass in $$\mu$$ and $$sigma$$ if we only can have one variable, `x`? The answer is the `NumContext`! We can create a `NumContext` and store the values in there and then pass it in:
+Let's implement this function in Nim! But how are we supposed to pass in $$\mu$$ and $$\sigma$$ if we only can have one variable, `x`? The answer is the `NumContext`! We can create a `NumContext` and store the values in there and then pass it in:
 
 ```nim
 var ctx = newNumContext[float]()
@@ -71,7 +77,10 @@ var ctx = newNumContext[float]()
 ctx["sigma"] = 1.0
 ctx["mu"] = 3.0
 ```
-As you can see, the context behaves like a table where we use a string as the key. Note though that the type of the `NumContext` must the same as the return-value of your function. So if your `f(x)` has return-type `CoolType`, then you must create a `NumContext[CoolType]` and NOT one with `float`. A NumContext does however always have a `float` storage which can be accessed using the procs `setF` and `getF`. 
+As you can see, the context behaves like a table where we use a string as the key. Note though that the type of the `NumContext` must be the same as the return-value of your function. So if your `f(x)` has return-type `CoolType`, then you must create a `NumContext[CoolType]` and NOT one with `float`. A NumContext does however always have a `float` storage which can be accessed using the procs `setF` and `getF`. 
+
+If we now plot `g(x)` we get this:
+![Normal Distribution]({{ "/images/nim-integration/b_normalDist.svg" | absolute_url }})
 
 Now we can define `g(x)`:
 
@@ -115,14 +124,14 @@ import numericalnim, stats
 var X = @[0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0] # seconds
 var Y = @[0.0, 4.0, 6.0, 6.5, 6.4, 6.2, 0.0] # meters/second
 ```
-Just by looking at the data it seems like someone started from standing still and then biked for 1 minute before stopping. How long have this person traveled in this time? Just by looking at this data we can never know for certain but we can get an approximation. The first and simplest way is to take the mean of the velocity and use the formula $$s = vt$$ to get a first approximation:
+Just by looking at the data it seems like someone started from standing still and then biked for 1 minute before stopping. How far has this person traveled in this time? Just by looking at this data we can never know for certain but we can get an approximation. The first and simplest way is to take the mean of the velocity and use the formula $$s = vt$$ to get a first approximation:
 
 ```nim
 let s1 = mean(Y) * 60
 echo "Mean method: ", s1, " meters"
 # Mean method: 249.4285714285714 meters
 ```
-So we now know that it's in the ballpark of 250m but we can of course do better than just assuming a constant velocity. Enter `trapz`! It approximates our points with straight lines between them an integrates them:
+So we now know that it's in the ballpark of 250 meters but we can of course do better than just assuming a constant velocity. Enter `trapz`! It approximates our points with straight lines between them an integrates them:
 
 ```nim
 let s2 = trapz(Y, X)
@@ -138,7 +147,7 @@ echo "Simpson: ", s3, " meters"
 ```
 Once again we are getting a slightly different answer which should be more accurate as it approximates the velocity as smoother than `trapz` does. There is one more method that can handle discrete integrands, `romberg`, but it does ONLY work if we have `N = 2^k + 1` equally spaced points (3, 5, 9, 17, 33, 65, 129 etc). In our case we have 7 equally spaced points which does NOT WORK. 
 
-There is a trick we can do though to try and get an even better approximation. That is to interpolate our data using cubic spline which will give us a piecewise 3rd degree polynomial so we should get even better accuracy. There are two types of splines in NumericalNim: natural cubic splines which only supports floats and Hermite cubic splines which works for any type. The advantage of the natural cubic splines though is that it gives a continuous second derivative while the hermite only gives continuous first derivative (if we doesn't supply it with the derivatives in all points as well. But we don't have those here). I will use the natural cubic splines to get the smoothest possible approximation:
+There is a trick we can do though to try and get an even better approximation. That is to interpolate our data using cubic splines, which will give us a piecewise 3rd degree polynomial so we should get even better accuracy. There are two types of splines in NumericalNim: natural cubic splines which only supports floats and Hermite cubic splines which works for any type. The advantage of the natural cubic splines though is that it gives a continuous second derivative while the hermite only gives continuous first derivative (if we doesn't supply it with the derivatives in all points as well. But we don't have those here). I will use the natural cubic splines to get the smoothest possible approximation:
 
 ```nim
 let spline = newCubicSpline(X, Y)
@@ -146,14 +155,18 @@ let spline = newCubicSpline(X, Y)
 # let spline2 = newHermiteSpline(X, Y) 
 ```
 
+In this plot where we show the discrete velocity values and the two different spline types we can see that there isn't just a single way of interpolating the data but multiple. And hence we get slightly different results depending on which one we choose:
+![Velocity and splines]({{ "/images/nim-integration/c_velocity.svg" | absolute_url }})
+
 We can evaluate it at a certain point by using the `eval` proc (and `derivEval` to evaluate the derivative):
 ```nim
 echo spline.eval(5.0)
 # 2.167596153846154
 ```
-Or we can turn it into a proc using `toProc`:
+We could also want an ordinary proc instead of calling `eval` on the spline every time. `toProc` wraps the `spline.eval(x)` in a proc for us:
 ```nim
 let splineProc = spline.toProc
+# We don't need `spline` any more now:
 echo splineProc(5.0)
 # 2.167596153846154
 ```
@@ -163,9 +176,13 @@ let s4 = adaptiveGauss(spline, 0.0, 60.0)
 echo "Gauss: ", s4, " meters"
 # Gauss: 301.2115384615747 meters
 ```
-Here we used the `adaptiveGauss` method as we with the spline "know" all the function values between 0 and 60. I think we can with a reasonable certainty say that the biker has traveled about 300 meters during this minute. As you can see there are many ways to approach this problem and we can't really know for certain exactly how long this biker have traveled, not only because of the lack of points but also because the time and velocity probably (most definitely!) also has a measurement uncertainty. All we can do is to reduce this uncertainty by taking more measurements with better accuracy and as we do so, all methods should converge towards the "correct" solution. But we will never reach it with 100% certainty, only within a reasonable tolerance. In this case that tolerance may be plus minus 10 meters, which might not matter for the average person but in a competition where it's milliseconds that differ between the contestants it's nowhere near enough. All is relative, know your situation and it's requirements!
+Here we used the `adaptiveGauss` method as we with the spline "know" all the function values between 0 and 60. I think we can with a reasonable certainty say that the biker has traveled about 300 meters during this minute. As you can see there are many ways to approach this problem and we can't really know for certain exactly how long this biker has traveled, not only because of the lack of points but also because the time and velocity probably (most definitely!) also has a measurement uncertainty. 
+
+All we can do is to reduce this uncertainty by taking more measurements with better accuracy and as we do so, all methods should converge towards the "correct" solution. But we will never reach it with 100% certainty, only within a reasonable tolerance. In this case that tolerance may be plus minus 10 meters, which might not matter for the average person but in a competition where it's milliseconds that differ between the contestants it's nowhere near enough. All is relative, know your situation and its requirements!
 # 3. Cumulative integration
-There are scenarios where you could want to not only calculate a single integral but many subintegrals. For example if we have the velocity as a function of time. With one integral we can calculate how long we have traveled in a certain amount of time. But what if we want the velocity as a function of time? Then we have to calculate many integrals, one for every point in time we want. NumericalNim has specialized methods to deal with these kinds of integrals which are called cumulative integrals. The available methods are `cumtrapz` and `cumsimpson`. They work for both discrete and continuous functions, but only the discrete case will be handled here. The continuous one works the same way only that you give it a function instead of Y-values and you give it the X-values you want it to calculate the integral at. Let's get started with the discrete case!
+There are scenarios where you could want to not only calculate a single integral but many subintegrals. For example if we have the velocity as a function of time. With one integral we can calculate how long we have traveled in a certain amount of time. But what if we want the velocity as a function of time? Then we have to calculate many integrals, one for every point in time we want. 
+
+NumericalNim has specialized methods to deal with these kinds of integrals which are called cumulative integrals. The available methods are `cumtrapz` and `cumsimpson`. They work for both discrete and continuous functions, but only the discrete case will be handled here. The continuous one works the same way only that you give it a function instead of Y-values and you give it the X-values you want it to calculate the integral at. Let's get started with the discrete case!
 
 We are given the velocities V at the time points t (same as in section 2 above):
 
@@ -189,7 +206,15 @@ let dist2 = cumsimpson(V, t)
 echo "Simpson: ", dist2
 # Simpson: @[0.0, 21.66666666666667, 73.33333333333334, 136.3333333333333, 201.3333333333333, 269.3333333333334, 305.3333333333334]
 ```
-Here we instead have traveled 136.3 meters after 30 seconds which isn't much of a difference, but probably closer to the real value. That's neat and all but can we use this for something else? Yes! Say that we just measure the acceleration of the biker instead, then we can get the velocity by this method. And if we repeat it again, we can get the distance as well! So just by measuring the acceleration of something we can get an approximation for the distance it has traveled. A simple example is a free falling object with constant acceleration 9.82 (here where I live). We do of course ignore air resistance or else it would be more of a differential equation instead. We get these measurements from the accelerometer:
+Here we instead have traveled 136.3 meters after 30 seconds which isn't much of a difference, but probably closer to the real value. Below is a two plots which shows the discrete velocity and the distances at each time point for trapz and simpson:
+
+![Velocity]({{ "/images/nim-integration/d_velocity.svg" | absolute_url }})
+
+![Distance Trapz Simpson]({{ "/images/nim-integration/d_distance.svg" | absolute_url }})
+
+
+
+That's neat and all but can we use this for something else? Yes! Say that we just measure the acceleration of the biker instead, then we can get the velocity by this method. And if we repeat it again, we can get the distance as well! So just by measuring the acceleration of something we can get an approximation for the distance it has traveled. A simple example is a free falling object with constant acceleration 9.82 m/s^2 (here where I live). We do of course ignore air resistance or else it would be more of a differential equation instead. We get these measurements from the accelerometer:
 
 ```nim
 var t2 = @[0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
@@ -217,7 +242,13 @@ let h = simpson(v, t2)
 echo "Height: ", h, " meters"
 # Height: 121.0451388888889 meters
 ```
-Roughly 121 meters, that's a pretty high building! Or a really low plane! The problem we have here is that we don't exactly know when the object hit the ground, just that it happened sometime between 4 and 5 seconds. We can solve this analytically and check if 121 meters lies within the possible heights. The formula is $$h = \frac{gt^2}{2}$$. By putting in t = 4 we get 78.56 meters and with t = 5 we get 122.75 meters. This shows that because of our poor resolution in our measurements, just one per second. We have a interval spanning over 40 meters so we can't expect the integration method to do better than that. In this case it seems like the approximation it had to do put the impact closer to 5 than 4 seconds, which might or might not be correct. 
+Roughly 121 meters, that's a pretty high building! Or a really low plane! Below is two plots showing the velocity and distance the object has fallen as a function of time:
+
+![Fall Velocity]({{ "/images/nim-integration/e_velocity.svg" | absolute_url }})
+
+![Fall Height]({{ "/images/nim-integration/e_height.svg" | absolute_url }})
+
+The problem we have here is that we don't exactly know when the object hit the ground, just that it happened sometime between 4 and 5 seconds. We can solve this analytically and check if 121 meters lies within the possible heights. The formula is $$h = \frac{gt^2}{2}$$. By putting in $$t = 4$$ we get 78.56 meters and with $$t = 5$$ we get 122.75 meters. This shows that because of our poor resolution in our measurements, just one per second. We have a interval spanning over 40 meters so we can't expect the integration method to do better than that. In this case it seems like the approximation it had to do put the impact closer to 5 than 4 seconds, which might or might not be correct. 
 
 Numerical integration is effective to calculate integrals when we can't do it symbolically. But there is always a certain amount of error because of the approximations that has to be done. But those start to become noticeable first when your data get reliable. Mathematical functions are the most exact things we have so those are well suited for numerical integration and you don't have to think about it much. But when you want to integrate something that isn't perfect you must always consider the errors, the better your data is, the better your integration will be. Don't just blindly trust what the integrator spits out without giving a little bit of thought to what conditions it is working under. 
 
